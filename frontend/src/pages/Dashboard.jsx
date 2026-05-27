@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { getJobs } from '../services/jobService';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import StatCard from '../components/StatCard';
-import { Briefcase, MessageSquare, CheckCircle2, XCircle } from 'lucide-react';
+import { Briefcase, MessageSquare, CheckCircle2, XCircle, Award } from 'lucide-react'; // Added Award icon for Accepted
 
 function Dashboard() {
   const [jobs, setJobs] = useState([]);
-  const [stats, setStats] = useState({ applied: 0, interview: 0, offer: 0, rejected: 0 });
+  const [stats, setStats] = useState({ applied: 0, interview: 0, offer: 0, rejected: 0, accepted: 0 });
   const [monthlyData, setMonthlyData] = useState([]);
 
   useEffect(() => {
@@ -16,12 +16,13 @@ function Dashboard() {
   const loadJobs = async () => {
     const data = await getJobs();
     setJobs(data);
-    
+
     const applied = data.filter(j => j.status === 'Applied').length;
     const interview = data.filter(j => j.status === 'Interview').length;
     const offer = data.filter(j => j.status === 'Offer').length;
     const rejected = data.filter(j => j.status === 'Rejected').length;
-    setStats({ applied, interview, offer, rejected });
+    const accepted = data.filter(j => j.status === 'Accepted').length;
+    setStats({ applied, interview, offer, rejected, accepted });
 
     // Monthly applications (last 6 months)
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -46,34 +47,35 @@ function Dashboard() {
     setMonthlyData(monthlyCount);
   };
 
-  // Original distinct colors for status pie chart
   const statusColors = {
     Applied: '#3b82f6',   // blue
     Interview: '#eab308', // yellow
     Offer: '#22c55e',     // green
-    Rejected: '#ef4444'   // red
+    Rejected: '#ef4444',  // red
+    Accepted: '#8b5cf6'   // purple for Accepted
   };
 
   const statusData = [
     { name: 'Applied', value: stats.applied, color: statusColors.Applied },
     { name: 'Interview', value: stats.interview, color: statusColors.Interview },
     { name: 'Offer', value: stats.offer, color: statusColors.Offer },
-    { name: 'Rejected', value: stats.rejected, color: statusColors.Rejected }
+    { name: 'Rejected', value: stats.rejected, color: statusColors.Rejected },
+    { name: 'Accepted', value: stats.accepted, color: statusColors.Accepted }
   ].filter(d => d.value > 0);
 
   return (
     <div className="space-y-6">
-      {/* Stats Cards with original icon colors */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard title="Applied Jobs" value={stats.applied} change="+5 this week" icon={Briefcase} color="bg-blue-500" />
-        <StatCard title="Interviews" value={stats.interview} change="2 upcoming" icon={MessageSquare} color="bg-yellow-500" />
-        <StatCard title="Offers" value={stats.offer} change="+1 this month" icon={CheckCircle2} color="bg-green-500" />
-        <StatCard title="Rejected" value={stats.rejected} change="-2 vs last month" icon={XCircle} color="bg-red-500" />
+      {/* Stats Cards – now 5 cards, responsive grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <StatCard title="Applied Jobs" value={stats.applied} icon={Briefcase} color="bg-blue-500" />
+        <StatCard title="Interviews" value={stats.interview} icon={MessageSquare} color="bg-yellow-500" />
+        <StatCard title="Offers" value={stats.offer} icon={CheckCircle2} color="bg-green-500" />
+        <StatCard title="Rejected" value={stats.rejected} icon={XCircle} color="bg-red-500" />
+        <StatCard title="Accepted" value={stats.accepted} icon={Award} color="bg-purple-500" />
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Bar Chart – stays brown */}
         <div className="bg-card p-4 rounded-lg shadow border border-border">
           <h3 className="text-lg font-semibold mb-2 text-foreground">Applications per Month</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -93,7 +95,6 @@ function Dashboard() {
           )}
         </div>
 
-        {/* Pie Chart with original distinct colors */}
         <div className="bg-card p-4 rounded-lg shadow border border-border">
           <h3 className="text-lg font-semibold mb-2 text-foreground">Status Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
