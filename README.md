@@ -3,8 +3,8 @@
 A full‑stack job application tracker. Users can register, log in, manually add jobs, update status, and view statistics. 
 
 ## 🚀 Live Demo
-- **Frontend (Web):** [https://job-tracker-web-ych8.onrender.com](https://job-tracker-web-ych8.onrender.com)
-- **Backend API:** [https://job-tracker-cawa.onrender.com](https://job-tracker-cawa.onrender.com)
+- [Frontend (Web)](https://job-tracker-web-ych8.onrender.com)
+- [Backend API](https://job-tracker-cawa.onrender.com)
 
 ## 🔐 Test Account (pre‑filled with jobs)
 - Email: `helu@h.com`
@@ -22,5 +22,4 @@ A full‑stack job application tracker. Users can register, log in, manually add
 |-------------|-----------------------------------------|
 | Frontend    | React + Vite + Tailwind CSS + Recharts  |
 | Backend     | Node.js + Express + MongoDB Atlas       |
-| Hosting     | Render (backend & frontend)             |
-|-------------|-----------------------------------------|                           
+| Hosting     | Render (backend & frontend)             |                          
