@@ -2,7 +2,7 @@
 
 A full‑stack job application tracker. Users can register, log in, manually add jobs, update status, and view statistics. 
 
-## 🚀 Live Demo
+## Live Demo
 - [Frontend (Web)](https://job-tracker-web-ych8.onrender.com)
 - [Backend API](https://job-tracker-cawa.onrender.com)
 
